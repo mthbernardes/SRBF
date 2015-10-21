@@ -23,19 +23,17 @@ def banner():
 
 def skype():
 	try:
-		payload = {'skype':'','resolveSkype':''}
-		payload['skype'] = raw_input('[+] - Provide the skype Username: ')
+		skype_name = raw_input('[+] - Provide the skype Username: ')
 		print '[+] - Trying to find IP address...'
-		r = requests.post('http://www.skresolver.com/index.php', data=payload)
-		lines = r.text
-		if lines.find("Avatar") == -1:
-			print red+"[+] - IP Address not Founded"+endc
+		r = requests.post('http://api.predator.wtf/resolver/?arguments='+skype_name)
+		ip = r.text
+		if ip in 'Crap, No IP Was Found':
+			print red+'[+] - '+ip+'  - [+]'+endc
+			exit
 		else:
-			post = lines.find("Avatar")
-			ip = lines[post:-1].split()[0]
-			ip = ip.split('>')[3].split(':')[0]
 			print green+"[+] - IP Address founded "+ip+endc
-		return ip
+			return ip
+	
 	except:
 		print
 		print red+'[+] - Error - [+]'+endc
